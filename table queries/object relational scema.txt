@@ -1,0 +1,33 @@
+//object types
+--------------------------------------
+
+Guardian_T (gname:VARCHAR2(30),gmobile:VARCHAR2(30),gincome:number(8,2),samurdhi:char(1), RELATIONSHIP:VARCHAR2(30))
+
+Guardian_T_TABLE AS TABLE OF Guardian_T
+
+Doctor_t(doctorid:int , docname:varchar2(50), dspecialization:varchar2(30),visitChg:float)
+
+Adolescents_T(ano:number(4), aname:varchar2(15), dob:date ,aschedule:ref schedule_T,adoctor:ref  Doctor_t,paymentfee:number(8,2),Guardian Guardian_T_TABLE)
+
+schedule_T(schedule_no:number(2),schedule_name:varchar2(12),schedule_type:varchar2(12),scheduled_adolescent:ref Adolescents_T)
+
+Activity_t(activity_no:number(4),activity_name:varchar2(15),aschedule:ref schedule_T,arate:number(2))
+
+medicalRecord_T(rAdolescent:ref Adolescents_T ,rdoctor:ref Doctor_t)
+
+
+//tables
+
+--------------------------------------------------------
+
+schedule OF schedule_T(schedule_no PRIMARY KEY)
+
+Adolescents of Adolescents_T(ano primary key)nested table Guardian store as Guardian_tb;
+
+Activity OF Activity_t(activity_no primary key)
+
+Doctor of medicalRecord_T(doctorid primary key)
+
+medicalRecord of medicalRecord_T
+
+

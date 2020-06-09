@@ -1,0 +1,52 @@
+CREATE TABLE schedule OF schedule_T(
+schedule_no PRIMARY KEY
+)
+/
+
+CREATE TABLE Adolescents of Adolescents_T(
+ano primary key)
+nested table Guardian store as Guardian_tb
+/
+
+ALTER TABLE schedule 
+MODIFY scheduled_adolescent REFERENCES Adolescents
+/
+
+CREATE TABLE Activity OF Activity_t(
+activity_no primary key,
+aschedule references schedule
+)
+/
+
+
+CREATE TABLE Doctor of Doctor_t(
+doctorid primary key
+)
+/
+
+
+CREATE TABLE medicalRecord of medicalRecord_T(
+Recordid primary key,
+rAdolescent references Adolescents,
+rdoctor references Doctor
+)
+/
+
+
+
+
+CREATE TABLE Grades of Grades_T(
+Gradeid primary key,
+gAdolescent references Adolescents,
+gactivity references Activity,
+gdoctor references Doctor
+)
+/
+
+
+
+
+
+
+
+

@@ -1,0 +1,145 @@
+----------------------------------insert in to doctor--------------------
+
+
+INSERT INTO Doctor VALUES(Doctor_t(10,'Dr.K.Alvis','Psychologist','1500.00'))
+/
+INSERT INTO Doctor VALUES(Doctor_t(11,'Dr.L.Dasun','Psychiatrist','2500.00'))
+/
+INSERT INTO Doctor VALUES(Doctor_t(12,'Dr.N.Saduni','therapist','1000.00'))
+/
+INSERT INTO Doctor VALUES(Doctor_t(13,'Dr.J.Sudath','Psychologist','1700.00'))
+/
+INSERT INTO Doctor VALUES(Doctor_t(14,'Dr.K.Avishka','counselor','1200.00'))
+/
+
+
+
+------------------------insert into Adolescents table----------------- 
+
+INSERT INTO Adolescents VALUES(1112,'JACK','21-JAN-97',(select ref(d) from Doctor d where d.doctorid = 10),10000.00,
+Guardian_T_TABLE(Guardian_T('piyal','0717036280',20000.00 ,'Y' ,'FATHER' ),
+Guardian_T('martha','0717936281',0.00,'N','MOTHER')))
+/
+
+INSERT INTO Adolescents VALUES(1113,'dureksha','07-FEB-20',(select ref(d) from Doctor d where d.doctorid = 11),20000.00,
+Guardian_T_TABLE(Guardian_T('saman','0717045280',30000.00,'N','FATHER'),
+Guardian_T('sunil','0727966281',25000.00,'N','UNCLE'),
+Guardian_T('kanthi','0768836280' ,0.00 , 'N' ,'MOTHER')))
+/
+
+INSERT INTO Adolescents VALUES(1114,'thilini','21-AUG-97',(select ref(d) from Doctor d where d.doctorid = 12),30000.00,
+Guardian_T_TABLE(Guardian_T('nimal' , '0777816280' , 50000.00 , 'N' , 'FATHER' ),
+Guardian_T('nilani','0717936000',0.00,'N','MOTHER')))
+/
+
+INSERT INTO Adolescents VALUES(1115,'sonal','26-JAN-98',(select ref(d) from Doctor d where d.doctorid = 10),20000.00,
+Guardian_T_TABLE(Guardian_T('asela' , '0722816280' , 40000.00 , 'Y' , 'UNCLE' )))
+/
+
+INSERT INTO Adolescents VALUES(1116,'Chamal','10-NOV-98', (select ref(d) from Doctor d where d.doctorid = 14),120000.00,
+Guardian_T_TABLE(Guardian_T('sumana' , '0712216280' , 46000.00 , 'N' , 'AUNTY' )))
+/
+
+
+-----------------------------------insert in to schedule --------------------------------------
+
+INSERT INTO schedule  VALUES(schedule_T(01,'schedule1','morning',(select ref(a) from Adolescents a where a.ano= 1112)))
+/
+INSERT INTO schedule  VALUES(schedule_T(02,'schedule2','evening',(select ref(a) from Adolescents a where a.ano= 1113)))
+/
+INSERT INTO schedule  VALUES(schedule_T(03,'schedule3','affternoon',(select ref(a) from Adolescents a where a.ano= 1113)))
+/
+INSERT INTO schedule  VALUES(schedule_T(04,'schedule5','night',(select ref(a) from Adolescents a where a.ano= 1112)))
+/
+INSERT INTO schedule  VALUES(schedule_T(05,'schedule3','affternoon',(select ref(a) from Adolescents a where a.ano= 1114)))
+/
+INSERT INTO schedule  VALUES(schedule_T(06,'schedule1','morning',(select ref(a) from Adolescents a where a.ano= 1115)))
+/
+INSERT INTO schedule  VALUES(schedule_T(07,'schedule1','morning',(select ref(a) from Adolescents a where a.ano= 1116)))
+/
+INSERT INTO schedule  VALUES(schedule_T(08,'schedule3','affternoon',(select ref(a) from Adolescents a where a.ano= 1112)))
+/
+INSERT INTO schedule  VALUES(schedule_T(09,'schedule1','morning',(select ref(a) from Adolescents a where a.ano= 1115)))
+/
+INSERT INTO schedule  VALUES(schedule_T(10,'schedule1','morning',(select ref(a) from Adolescents a where a.ano= 1116)))
+/
+
+
+-------------------------------------------insert in to Activity table---------------------------
+
+INSERT INTO Activity VALUEs(Activity_t(0001,'speaking',(select ref (s) from schedule  s where s.schedule_no=01),07))
+/
+INSERT INTO Activity VALUEs(Activity_t(0002,'reading',(select ref (s) from schedule  s where s.schedule_no=02),05))
+/
+INSERT INTO Activity VALUEs(Activity_t(0003,'writing',(select ref (s) from schedule  s where s.schedule_no=04),05))
+/
+INSERT INTO Activity VALUEs(Activity_t(0004,'listeing',(select ref (s) from schedule  s where s.schedule_no=05),10))
+/
+INSERT INTO Activity VALUEs(Activity_t(0005,'speach',(select ref (s) from schedule  s where s.schedule_no=06),05))
+/
+
+
+------------------------------------------------insert in to medicalRecord-----------------------------
+
+
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0001,(select ref(a) from Adolescents a where a.ano= 1113),(select ref (d) from Doctor d where d.doctorid=11),'27-JAN-19'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0002,(select ref(a) from Adolescents a where a.ano= 1114),(select ref (d) from Doctor d where d.doctorid=12),'01-FEB-20'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0003,(select ref(a) from Adolescents a where a.ano= 1112),(select ref (d) from Doctor d where d.doctorid=10),'20-MAR-20'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0004,(select ref(a) from Adolescents a where a.ano= 1115),(select ref (d) from Doctor d where d.doctorid=10),'21-NOV-19'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0005,(select ref(a) from Adolescents a where a.ano= 1116),(select ref (d) from Doctor d where d.doctorid=14),'03-DCE-19'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0006,(select ref(a) from Adolescents a where a.ano= 1112),(select ref (d) from Doctor d where d.doctorid=10),'03-DEC-19'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0007,(select ref(a) from Adolescents a where a.ano= 1113),(select ref (d) from Doctor d where d.doctorid=11),'03-DEC-19'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0008,(select ref(a) from Adolescents a where a.ano= 1114),(select ref (d) from Doctor d where d.doctorid=12),'16-FEB-20'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0009,(select ref(a) from Adolescents a where a.ano= 1112),(select ref (d) from Doctor d where d.doctorid=10),'27-OCT-19'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0010,(select ref(a) from Adolescents a where a.ano= 1115),(select ref (d) from Doctor d where d.doctorid=10),'06-NOV-19'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0011,(select ref(a) from Adolescents a where a.ano= 1116),(select ref (d) from Doctor d where d.doctorid=14),'02-AUG-19'))
+/
+INSERT INTO medicalRecord VALUEs(medicalRecord_T(0012,(select ref(a) from Adolescents a where a.ano= 1112),(select ref (d) from Doctor d where d.doctorid=10),'25-JAN-20'))
+/
+
+
+-----------------------------------grades insert ------------------------
+
+
+INSERT INTO Grades VALUES (Grades_T(01,(select ref(a) from Adolescents a where a.ano= 1116),(select ref(a) from Activity a where a.activity_no = 0001),(select ref(d) from Doctor d where d.doctorid = 10),74))
+/
+INSERT INTO Grades VALUES (Grades_T(02,(select ref(a) from Adolescents a where a.ano= 1112),(select ref(a) from Activity a where a.activity_no = 0002),(select ref(d) from Doctor d where d.doctorid = 11),81))
+/
+INSERT INTO Grades VALUES (Grades_T(03,(select ref(a) from Adolescents a where a.ano= 1113),(select ref(a) from Activity a where a.activity_no = 0003),(select ref(d) from Doctor d where d.doctorid = 12),60))
+/
+INSERT INTO Grades VALUES (Grades_T(04,(select ref(a) from Adolescents a where a.ano= 1115),(select ref(a) from Activity a where a.activity_no = 0004),(select ref(d) from Doctor d where d.doctorid = 10),34))
+/
+INSERT INTO Grades VALUES (Grades_T(05,(select ref(a) from Adolescents a where a.ano= 1115),(select ref(a) from Activity a where a.activity_no = 0005),(select ref(d) from Doctor d where d.doctorid = 10),23))
+/
+INSERT INTO Grades VALUES (Grades_T(06,(select ref(a) from Adolescents a where a.ano= 1113),(select ref(a) from Activity a where a.activity_no = 0001),(select ref(d) from Doctor d where d.doctorid = 11),95))
+/
+INSERT INTO Grades VALUES (Grades_T(07,(select ref(a) from Adolescents a where a.ano= 1112),(select ref(a) from Activity a where a.activity_no = 0002),(select ref(d) from Doctor d where d.doctorid = 11),85))
+/
+INSERT INTO Grades VALUES (Grades_T(08,(select ref(a) from Adolescents a where a.ano= 1114),(select ref(a) from Activity a where a.activity_no = 0003),(select ref(d) from Doctor d where d.doctorid = 10),68))
+/
+
+INSERT INTO Grades VALUES (Grades_T(09,(select ref(a) from Adolescents a where a.ano= 1114),(select ref(a) from Activity a where a.activity_no = 0004),(select ref(d) from Doctor d where d.doctorid = 10),63))
+/
+INSERT INTO Grades VALUES (Grades_T(10,(select ref(a) from Adolescents a where a.ano= 1113),(select ref(a) from Activity a where a.activity_no = 0001),(select ref(d) from Doctor d where d.doctorid = 11),83))
+/
+
+
+
+
+
+
+
+
+
+
+

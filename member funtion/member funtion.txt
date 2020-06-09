@@ -1,0 +1,130 @@
+
+
+----------------------------------------------------------------------------------------------
+# 1)this member method to compute the Adolescents payment fee discount with his/her Guardian. The
+discount is calculated at the 2% of payment fee for each Guardian which dosen't have 'samurdhi'. and this will
+compute the TAX amount of Adolescents, TAX will be calculated by multiplying the paymentfee with a rate 
+percentage given as a parameter.
+-----------------------------------------------------------------------------------------------
+
+
+ALTER TYPE Adolescents_T
+ADD MEMBER FUNCTION
+calclDiscount RETURN FLOAT
+CASCADE;
+/
+
+ALTER TYPE Adolescents_T
+ADD MEMBER FUNCTION
+taxPayment(RATE FLOAT) RETURN FLOAT
+CASCADE;
+/
+
+
+CREATE OR REPLACE TYPE BODY Adolescents_T AS
+	MEMBER FUNCTION calclDiscount RETURN FLOAT IS
+	discount FLOAT;
+	BEGIN
+			SELECT SUM(0.02 * SELF.paymentfee) INTO discount
+			FROM TABLE(SELF.Guardian) d
+			WHERE d.samurdhi = 'N';
+			RETURN discount;
+			
+	
+	END;
+	
+	MEMBER FUNCTION taxPayment(RATE FLOAT) RETURN FLOAT IS	
+	BEGIN
+		RETURN SELF.paymentfee * RATE;		
+	
+	END;
+END;
+/
+
+
+SELECT a.aname,a.paymentfee,a.calclDiscount()
+FROM adolescents a;
+
+
+
+SELECT a.aname,a.paymentfee,a.taxPayment(0.05)
+FROM adolescents a;
+
+
+
+
+----------------------------------------------------------------------------------------------
+# 3) Below method to compute the extra hour charges of doctor, aditionalOTcharge will be calculated by multiplying the
+doctor's visiting Charge with extar hours  and a rate  percentage given as a parameter.
+-----------------------------------------------------------------------------------------------
+
+
+
+ALTER TYPE Doctor_t
+ADD MEMBER FUNCTION aditionalOTcharge(rate FLOAT,othours FLOAT)
+RETURN FLOAT CASCADE;
+/
+
+ALTER TYPE Doctor_t
+ADD MEMBER FUNCTION TotalCharge_WithOT(rate FLOAT,othours FLOAT)
+RETURN FLOAT CASCADE;
+/
+
+
+CREATE OR REPLACE TYPE BODY Doctor_t AS 
+MEMBER FUNCTION 
+aditionalOTcharge(rate FLOAT, othours FLOAT) 
+	RETURN FLOAT IS 
+		BEGIN 
+			return rate* othours * SELF.visitChg; 
+             
+		END aditionalOTcharge; 
+        
+MEMBER FUNCTION 
+TotalCharge_WithOT(rate FLOAT,othours FLOAT)
+	RETURN FLOAT IS 
+    x float;
+		BEGIN 
+			x := rate * othours *SELF.visitChg; 
+            RETURN x+SELF.visitChg; 
+            
+		END TotalCharge_WithOT;         
+    
+END; 
+/
+
+select d.docname,d.dspecialization,d.visitChg ,d.aditionalOTcharge(0.05,3),d.TotalCharge_WithOT(0.05,3)
+from doctor d
+WHERE d.docname='Dr.J.Sudath';
+
+
+select d.docname,d.dspecialization,d.visitChg ,d.aditionalOTcharge(0.05,3),d.TotalCharge_WithOT(0.05,3)
+from doctor d;
+
+-------------------------------------------------------------------
+4
+
+ALTER TYPE Grades_T
+ADD MEMBER FUNCTION 
+GradeValue return VARCHAR2(30)
+CASCADE;
+/
+
+CREATE OR REPLACE TYPE BODY Grades_T AS MEMBER FUNCTION GradeValue
+	RETURN VARCHAR2 IS
+	BEGIN
+	IF ( self.grade < 45 ) THEN
+            RETURN 'poor';
+	ELSIF (  self.grade >= 45 AND 65 > self.grade ) THEN
+            RETURN 'avarge';
+        ELSIF (  self.grade >= 65 AND 75 > self.grade ) THEN
+            RETURN 'good';
+        ELSIF (  self.grade >= 75 AND 85 > self.grade ) THEN
+            RETURN 'very good';
+        ELSIF (  self.grade >= 85 AND 100 >= self.grade ) THEN
+            RETURN 'excellent';
+        ELSE
+             RETURN 'invalid GRADE';
+		END IF;
+	END;
+END;

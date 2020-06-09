@@ -1,0 +1,18 @@
+select *
+from doctor;
+
+select s.schedule_no,s.schedule_name,s.schedule_type,s.scheduled_adolescent.aname
+from schedule s;
+
+select a.activity_no,a.activity_name,a.aschedule.schedule_name,a.arate
+from Activity a;
+
+select r.rdate,r.rAdolescent.aname,r.rdoctor.docname
+from medicalRecord r;
+
+Select a.ano,g.*
+From Adolescents a, TABLE(a.Guardian) g
+/
+
+select g.Gradeid,g.gAdolescent.aname,g.gactivity.activity_name,g.gdoctor.docname,g.grade
+from Grades g;

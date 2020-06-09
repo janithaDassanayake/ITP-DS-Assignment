@@ -1,0 +1,52 @@
+
+Select
+   a.ano AS No ,
+     a.aname AS Adolescent_Name ,
+       g.gname AS Guardian_Name ,
+         g.RELATIONSHIP AS RELATIONSHIP
+From 
+     Adolescents a, 
+       TABLE(a.Guardian) g
+where 
+      g.samurdhi='Y'
+/
+
+
+SELECT a.aname, TO_NUMBER(TO_CHAR(SYSDATE,'YYYY')) - TO_NUMBER(TO_CHAR(a.dob,'YYYY')) AS AGE
+from Adolescents a
+group by a.aname ,  TO_NUMBER(TO_CHAR(SYSDATE,'YYYY')) - TO_NUMBER(TO_CHAR(a.dob,'YYYY'))
+having TO_NUMBER(TO_CHAR(SYSDATE,'YYYY')) - TO_NUMBER(TO_CHAR(a.dob,'YYYY'))>18
+order by  a.aname;
+
+
+
+SELECT 
+   a.adoctor.doctorid AS Doctor_ID, 
+      a.adoctor.docname AS Doctor_Name, 
+         count(a.adoctor.doctorid) AS No_of_patient
+FROM 
+    adolescents a 
+group by 
+   a.adoctor.doctorid,a.adoctor.docname
+HAVING 
+    count(a.adoctor.doctorid) > 1;
+
+
+
+select DISTINCT r.rdoctor.docname , count(r.rdoctor.doctorid)
+From  medicalRecord r 
+GROUP by  r.rdoctor.docname ;
+
+
+
+
+select DISTINCT r.rdoctor.docname , count(r.rdoctor.doctorid)
+From  medicalRecord r 
+  GROUP by  r.rdoctor.docname 
+     Having count(r.rdoctor.doctorid) >=
+                                         All( SELECT count(r.rdoctor.doctorid)
+                                           From medicalRecord r 
+                                             GROUP by  r.rdoctor.docname );
+
+
+
